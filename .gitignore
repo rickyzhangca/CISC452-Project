@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+model_data/yolo_weights.h5
+model_data/.DS_Store
+yolov3.weights
