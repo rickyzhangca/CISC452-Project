@@ -13,7 +13,7 @@ from keras.models import load_model
 from keras.layers import Input
 from PIL import Image, ImageFont, ImageDraw
 
-from yolo3.model import yolo_eval, yolo_body, tiny_yolo_body
+from yolo3.model import yolo_eval, yolo_body
 from yolo3.utils import letterbox_image
 import os
 from keras.utils import multi_gpu_model
@@ -65,18 +65,7 @@ class YOLO(object):
         # Load model, or construct model and load weights.
         num_anchors = len(self.anchors)
         num_classes = len(self.class_names)
-        is_tiny_version = num_anchors==6 # default setting
-        try:
-            self.yolo_model = load_model(model_path, compile=False)
-        except:
-            self.yolo_model = tiny_yolo_body(Input(shape=(None,None,3)), num_anchors//2, num_classes) \
-                if is_tiny_version else yolo_body(Input(shape=(None,None,3)), num_anchors//3, num_classes)
-            self.yolo_model.load_weights(self.model_path) # make sure model, anchors and classes match
-        else:
-            assert self.yolo_model.layers[-1].output_shape[-1] == \
-                num_anchors/len(self.yolo_model.output) * (num_classes + 5), \
-                'Mismatch between model and given anchor and class sizes'
-
+        self.yolo_model = load_model(model_path, compile=False)
         print('{} model, anchors, and classes loaded.'.format(model_path))
 
         # Generate colors for drawing bounding boxes.
