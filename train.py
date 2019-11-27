@@ -20,7 +20,7 @@ from tensorflow.python.keras import backend as K
 def _main():
     annotation_path = 'train.txt'
     log_dir = 'logs/000/'
-    classes_path = 'model_data/voc_classes.txt'
+    classes_path = 'model_data/coco_classes.txt'
     anchors_path = 'model_data/yolo_anchors.txt'
     class_names = get_classes(classes_path)
     num_classes = len(class_names)
@@ -30,7 +30,6 @@ def _main():
 
     model = create_model(input_shape, anchors, num_classes,
             freeze_body=2, weights_path='model_data/yolo_weights.h5') # make sure you know what you freeze
-
 
     logging = TensorBoard(log_dir=log_dir)
     checkpoint = ModelCheckpoint(log_dir + 'ep{epoch:03d}-loss{loss:.3f}-val_loss{val_loss:.3f}.h5',

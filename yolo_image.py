@@ -49,18 +49,6 @@ if __name__ == '__main__':
         '--image', default=False, action="store_true",
         help='Image detection mode, will ignore all positional arguments'
     )
-    '''
-    Command line positional arguments -- for video detection mode
-    '''
-    parser.add_argument(
-        "--input", nargs='?', type=str,required=False,default='./path2your_video',
-        help = "Video input path"
-    )
-
-    parser.add_argument(
-        "--output", nargs='?', type=str, default="",
-        help = "[Optional] Video output path"
-    )
 
     FLAGS = parser.parse_args()
 
