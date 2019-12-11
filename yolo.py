@@ -119,6 +119,12 @@ class YOLO(object):
                     size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
         thickness = (image.size[0] + image.size[1]) // 300
 
+        # write to json
+        data = {'test.jpg': {
+                'boxes':[], 'scores': []
+            }
+        }
+
         for i, c in reversed(list(enumerate(out_classes))):
             predicted_class = self.class_names[c]
             box = out_boxes[i]
@@ -135,6 +141,10 @@ class YOLO(object):
             right = min(image.size[0], np.floor(right + 0.5).astype('int32'))
             print(label, (left, top), (right, bottom))
 
+            # dump data
+            data['test.jpg']['boxes'].append(box.tolist())
+            data['test.jpg']['scores'].append(score.tolist())
+
             if top - label_size[1] >= 0:
                 text_origin = np.array([left, top - label_size[1]])
             else:
@@ -149,6 +159,10 @@ class YOLO(object):
                 fill=self.colors[c])
             draw.text(text_origin, label, fill=(0, 0, 0), font=font)
             del draw
+
+        import json
+        with open('test.json', 'w') as fp:
+            json.dump(data, fp)
 
         end = timer()
         print(end - start)

@@ -6,7 +6,7 @@ from PIL import Image
 def detect_img(yolo):
     #while True:
         # img = input('Input image filename:')
-    img = 'test.jpg'
+    img = 'test2.jpg'
     try:
         image = Image.open(img)
     except:
